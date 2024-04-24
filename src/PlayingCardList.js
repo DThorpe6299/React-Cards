@@ -7,7 +7,7 @@ import "./PlayingCardList.css";
 
 function CardTable() {
   const [cards, setCards] = useState([]);
-  const [deckData, fetchDeck] = useAxios("https://deckofcardsapi.com/api/deck/new/");
+  const {responseData: deckData, fetchData: fetchDeck} = useAxios("https://deckofcardsapi.com/api/deck/new/");
   const [deckId, setDeckId] = useState(null);
 
   useEffect(() => {

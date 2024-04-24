@@ -11,25 +11,26 @@ import useAxios from "./hooks/useAxios";
  * or from a dropdown of available pokemon. */
 function PokeDex() {
   const [pokemon, setPokemon] = useState([]);
-  const [responseData, fetchDeck] = useAxios("https://pokeapi.co/api/v2/pokemon/");
+  const {responseData, fetchData: fetchPokemon} = useAxios("https://pokeapi.co/api/v2/pokemon/");
+  
+ 
 
   useEffect(()=>{
-    fetchDeck();
-  },[]);
-
-
+    if(responseData){
+      setPokemon((prevPokemon) => [...prevPokemon, { ...responseData, id: uuid() }]);
+  }
+  },[responseData]);
 
   const addPokemon = async (name) => {
     try {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`);
-      setPokemon((prevPokemon) => [...prevPokemon, { ...response.data, id: uuid() }]);
+      await fetchPokemon(name);
     } catch (error) {
       console.error("Error adding pokemon:", error);
     }
   };
 
 
-
+  console.log(pokemon)
   return (
     <div className="PokeDex">
       <div className="PokeDex-buttons">
